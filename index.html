@@ -10,48 +10,10 @@
     <body>
         <div class="topbar">
             <button type="button" class="settings">settings icon</button>
-        </div>
-        <time class="hidden" id="pauseIncomming">
-            <time class="border">
-                <div>Der er pause om:</div>
-            </time>
-            <time class="border clock">
-                <span id="minutes">0</span>
-                <span class="blink">:</span>
-                <span id="seconds">00</span><span id="preciseTimer">00</span>
-            </time>        
-        </time>
-        <time class="hidden border" id="pauseNow">
-            <span>Nu er der pause!</span>
-        </time>
-        <time class="border hidden" id="thatsItForNow">
-            <div>Der er først coding pirates igen på Mandag...</div>
-            <span>eller om: </span>
-            <ul id="timeTilNextList">
-                <li>
-                    <span id="NextTimeDays" class="clock">0</span>
-                    <span id="NextTimeDaysContainer"> dage</span>
-                    <span id="commaBeforeHours">, </span>
-                </li>
-                <li>
-                    <span id="NextTimeHours" class="clock">0</span>
-                    <span id="NextTimeHoursContainer">timer</span>
-                    <span id="commaBeforeMinutes">,</span>
-                </li>
-                <li>
-                    <span id="NextTimeMinutes" class="clock">0</span>
-                    <span id="NextTimeMinutesContainer">minuter</span>
-                    <span id="commaBeforeSeconds"> og</span>
-                </li>
-                <li>
-                    <span id="NextTimeSeconds" class="clock">00</span>
-                    <span id="NextTimeSecondsContainer">sekunder</span>
-                </li>
-            </ul>
-            
-        </time>
-        <time class="border hidden" id="notAnymoreToday">
-            <span>Pausen er ovre nu....</span>
+        </div>   
+        <time class="border" id="clockHeader">
+            <div class="clockText">Der er først coding pirates igen om:</div>
+            <div class="clock" id="nextTimeClock"></div>
         </time>
     </body>
     <script src="index.js"></script>

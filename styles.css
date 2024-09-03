@@ -20,7 +20,7 @@ time {
     text-shadow: 0.4vw 0.2vh 0.1vw rgb(55, 55, 55);
 }
 
-.clock {
+.clockNumber {
   text-shadow: 0.1ch 0.07ch 0px rgb(85, 85, 85), 0.2ch 0.15ch 0.03ch rgb(55, 55, 55), 0.32ch 0.22ch 0.1ch rgb(35, 35, 35);
 }
 
@@ -87,13 +87,20 @@ time {
 }
   
 @-webkit-keyframes blink {
-    to {
-        visibility: hidden;
-    }
+  to {
+    visibility: hidden;
+  }
 }
+@keyframes blink {
+  to {
+    visibility: hidden;
+  }
+}
+
 .blink {
-    -webkit-animation: blink 1s steps(1, start) infinite;
-        animation: blink 1s steps(1, start) infinite;
+  -webkit-animation: blink 1s steps(2, start) infinite;
+  animation: blink 1s steps(2, start) infinite;
+  animation-fill-mode: forwards;
 }
 
 @keyframes hidden
@@ -102,18 +109,22 @@ time {
   {
     visibility: visible;
     opacity: 1;
+    width: auto;
+    height: auto;
   }
   to
   {
     visibility: hidden;
     opacity: 0;
     display: none;
+    width: 0;
+    height: 0;
   }
 }
 
 .hidden {
   -webkit-animation: hidden 0.2s both;
-    animation: hidden 0.2s both;
+  animation: hidden 0.2s both;
 }
 
 .topbar
