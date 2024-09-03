@@ -6,7 +6,7 @@ forceMiliseconds = false;
 //the time between each textupdate in millisecunds
 defaultUpdateInterval = 200;
 
-function getTime() {
+function getTime(targetHours, targetMinutes) {
     var today = new Date();
     var thisDay = today.getDay()
     var nextMonday = new Date();
@@ -17,7 +17,7 @@ function getTime() {
     }
 
     // Set the time to 17:50
-    const date_future = nextMonday.setHours(17,50,0,1);
+    const date_future = nextMonday.setHours(targetHours,targetMinutes,0,1);
 
     // Calculate the time left
     let miliseconds = date_future - today;
@@ -71,7 +71,7 @@ numberContainerTextEnd = "</span>"
 
 function updateTime() {
     // Get the time left
-    let t = getTime();
+    let t = getTime(17, 50);
 
     let finalMessage = "";
     let shouldAddComma = false;
@@ -83,6 +83,7 @@ function updateTime() {
         && !forceShowInboundTime && !forceBreakNow || forceShowTimeTilNext) //check debug variables
     {
         clockText.innerHTML = breakIsLongInboundMessage;
+        t = getTime(17, 0);
 
         if(forceMiliseconds)
         {
@@ -163,7 +164,7 @@ function updateTime() {
         }
     }
 
-    console.log(finalMessage)
+    //console.log(finalMessage)
     clockContainer.innerHTML = finalMessage;
     setTimeout(updateTime, updateInterval);
 }
