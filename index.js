@@ -31,7 +31,7 @@ function getTime(targetHours, targetMinutes, datePhusher = 0 /*1000 * 60 * 29.5*
     seconds = seconds - days * 24 * 60 * 60 - hours * 60 * 60 - minutes * 60;
     miliseconds = miliseconds - days * 24 * 60 * 60 * 1000 - hours * 60 * 60 * 1000 - minutes * 60 * 1000 - seconds * 1000;
     
-    // Add a leading zero if the number is less than 100
+    // Add a leading zero if the number is less than 100 and 10
     if(miliseconds < 100) { miliseconds = "0" + miliseconds;}
     if(miliseconds < 10) { miliseconds = "0" + miliseconds;}
 
@@ -154,7 +154,6 @@ function updateTime() {
         let blinkMessage = ":"
         if(!showBlink) {blinkMessage = " "}
         
-        if(t.minutes < 10) {t.minutes = "0" + t.minutes}
         finalMessage = numberContainerText + t.minutes + numberContainerTextEnd + blinkContainerText + blinkMessage + numberContainerTextEnd + finalMessage;
         shouldAddComma = true;
 
