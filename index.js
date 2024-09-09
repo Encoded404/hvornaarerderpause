@@ -6,7 +6,7 @@ forceMiliseconds = false;
 //the time between each textupdate in millisecunds
 defaultUpdateInterval = 200;
 
-function getTime(targetHours, targetMinutes, datePhusher = 1000 * 60 * 29.5) {
+function getTime(targetHours, targetMinutes, datePhusher = 0 /*1000 * 60 * 29.5*/ ) {
     var today = new Date();
     var thisDay = today.getDay()
     var nextMonday = new Date();
