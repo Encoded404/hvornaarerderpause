@@ -85,23 +85,6 @@ time {
       transform: translateX(-3px) rotate(-0.6deg);
     }
 }
-  
-@-webkit-keyframes blink {
-  to {
-    visibility: hidden;
-  }
-}
-@keyframes blink {
-  to {
-    visibility: hidden;
-  }
-}
-
-.blink {
-  -webkit-animation: blink 1s steps(2, start) infinite;
-  animation: blink 1s steps(2, start) infinite;
-  animation-fill-mode: forwards;
-}
 
 @keyframes hidden
 {

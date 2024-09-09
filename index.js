@@ -79,7 +79,7 @@ function updateTime() {
     updateInterval = defaultUpdateInterval;
 
     //check if there is more than 1 hour til the break
-    if((t.days > 0 || hours > 1) 
+    if((t.days > 0 || t.hours > 1) 
         && !forceShowInboundTime && !forceBreakNow || forceShowTimeTilNext) //check debug variables
     {
         clockText.innerHTML = breakIsLongInboundMessage;
