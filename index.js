@@ -6,7 +6,7 @@ forceMiliseconds = false;
 //the time between each textupdate in millisecunds
 defaultUpdateInterval = 200;
 
-function getTime(targetHours, targetMinutes) {
+function getTime(targetHours, targetMinutes, datePhusher = 1000 * 60 * 29.5) {
     var today = new Date();
     var thisDay = today.getDay()
     var nextMonday = new Date();
@@ -20,7 +20,7 @@ function getTime(targetHours, targetMinutes) {
     const date_future = nextMonday.setHours(targetHours,targetMinutes,0,1);
 
     // Calculate the time left
-    let miliseconds = date_future - today;
+    let miliseconds = date_future - today + datePhusher;
     let seconds = Math.floor(miliseconds / 1000);
     let minutes = Math.floor(seconds / 60);
     let hours = Math.floor(minutes / 60);
@@ -73,13 +73,14 @@ function updateTime() {
     // Get the time left
     let t = getTime(17, 50);
 
+    console.log("test1 d:"+t.days+" h:"+t.hours+" m:"+t.minutes+" s"+t.seconds);
     let finalMessage = "";
     let shouldAddComma = false;
 
     updateInterval = defaultUpdateInterval;
 
     //check if there is more than 1 hour til the break
-    if((t.days > 0 || t.hours > 1) 
+    if((t.days > 0 || t.hours >= 1 || t.minutes >= 50) 
         && !forceShowInboundTime && !forceBreakNow || forceShowTimeTilNext) //check debug variables
     {
         clockText.innerHTML = breakIsLongInboundMessage;
