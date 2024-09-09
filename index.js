@@ -4,10 +4,12 @@ forceShowTimeTilNext = false;
 forceMiliseconds = false;
 
 //the time between each textupdate in millisecunds
-defaultUpdateInterval = 200;
+defaultUpdateInterval = 100;
 
-function getTime(targetHours, targetMinutes, datePhusher = 0 /*1000 * 60 * 29.5*/ ) {
+function getTime(targetHours, targetMinutes, datePhusher = 0) {
     var today = new Date();
+    if(datePhusher != 0) {today.setTime(today.getTime()+datePhusher)}
+    console.log(today)
     var thisDay = today.getDay()
     var nextMonday = new Date();
 
@@ -20,7 +22,7 @@ function getTime(targetHours, targetMinutes, datePhusher = 0 /*1000 * 60 * 29.5*
     const date_future = nextMonday.setHours(targetHours,targetMinutes,0,1);
 
     // Calculate the time left
-    let miliseconds = date_future - today + datePhusher;
+    let miliseconds = date_future - today;
     let seconds = Math.floor(miliseconds / 1000);
     let minutes = Math.floor(seconds / 60);
     let hours = Math.floor(minutes / 60);
@@ -34,6 +36,8 @@ function getTime(targetHours, targetMinutes, datePhusher = 0 /*1000 * 60 * 29.5*
     // Add a leading zero if the number is less than 100 and 10
     if(miliseconds < 100) { miliseconds = "0" + miliseconds;}
     if(miliseconds < 10) { miliseconds = "0" + miliseconds;}
+
+    if(days == -1) {days = 6}
 
     //console.log(seconds)
 
@@ -76,11 +80,21 @@ function updateTime() {
     console.log("test1 d:"+t.days+" h:"+t.hours+" m:"+t.minutes+" s"+t.seconds);
     let finalMessage = "";
     let shouldAddComma = false;
-
+    
     updateInterval = defaultUpdateInterval;
-
+    
     //check if there is more than 1 hour til the break
-    if((t.days > 0 || t.hours >= 1 || t.minutes >= 50) 
+    if (t.days == 6 && t.hours == 23 && t.minutes >= 50
+         && !forceShowTimeTilNext && !forceShowInboundTime || forceBreakNow) //check debug variables
+    {
+        clockText.innerHTML = breakMessage;
+    }
+    else if (t.days == 6 && (t.hours >= 22 && t.hours == 22 ? t.minutes >= 50 : t.minutes < 50)
+        && !forceShowTimeTilNext && !forceShowInboundTime || forceBreakNow) //check debug variables
+    {
+        clockText.innerHTML = breakIsOverMessage;
+    }
+    else if((t.days > 0 || t.hours >= 1 || t.minutes >= 50)
         && !forceShowInboundTime && !forceBreakNow || forceShowTimeTilNext) //check debug variables
     {
         clockText.innerHTML = breakIsLongInboundMessage;
@@ -126,11 +140,6 @@ function updateTime() {
         }
     }
     //check if it's less than 10 minutes since the break started. display breakMessage if true
-    else if (t.hours == 23 && t.days == -1 && t.minutes > 49
-         && !forceShowTimeTilNext && !forceShowInboundTime || forceBreakNow) //check debug variables
-    {
-        clockText.innerHTML = breakMessage;
-    }
     //check if theres less than an hour til the break
     else if(t.hours <= 1 
         || forceShowInboundTime) //check debug variables
