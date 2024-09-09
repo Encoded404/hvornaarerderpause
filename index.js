@@ -9,7 +9,7 @@ defaultUpdateInterval = 100;
 function getTime(targetHours, targetMinutes, datePhusher = 0) {
     var today = new Date();
     if(datePhusher != 0) {today.setTime(today.getTime()+datePhusher)}
-    console.log(today)
+    //console.log(today)
     var thisDay = today.getDay()
     var nextMonday = new Date();
 
@@ -77,7 +77,7 @@ function updateTime() {
     // Get the time left
     let t = getTime(17, 50);
 
-    console.log("test1 d:"+t.days+" h:"+t.hours+" m:"+t.minutes+" s"+t.seconds);
+    //console.log("test1 d:"+t.days+" h:"+t.hours+" m:"+t.minutes+" s"+t.seconds);
     let finalMessage = "";
     let shouldAddComma = false;
     
