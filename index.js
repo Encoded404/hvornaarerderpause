@@ -3,30 +3,37 @@ forceShowInboundTime = false;
 forceShowTimeTilNext = false;
 forceMiliseconds = false;
 
+datePhusher = 1000*60*60*-13.7
+
 //the time between each textupdate in millisecunds
 defaultUpdateInterval = 100;
 
-function getTime(targetHours, targetMinutes, datePhusher = 0) {
+function getTime(targetHours, targetMinutes) {
     var today = new Date();
     if(datePhusher != 0) {today.setTime(today.getTime()+datePhusher)}
-    //console.log(today)
+    console.log(today)
     var thisDay = today.getDay()
+    //console.log("day of the week: "+thisDay)
     var nextMonday = new Date();
+    // set date to next monday
+    nextMonday.setDate(today.getDate() + (1 - thisDay + 7) % 7);
 
-    // Make sure the date is actually a monday
-    if (thisDay != 1) {
-        nextMonday.setDate(today.getDate() + (1 - thisDay + 7) % 7);
-    }
+    //console.log("next monday: "+nextMonday)
 
     // Set the time to 17:50
     const date_future = nextMonday.setHours(targetHours,targetMinutes,0,1);
 
     // Calculate the time left
     let miliseconds = date_future - today;
+    //console.log("mil: "+miliseconds)
     let seconds = Math.floor(miliseconds / 1000);
+    //console.log("sec: "+seconds)
     let minutes = Math.floor(seconds / 60);
+    //console.log("min: "+minutes)
     let hours = Math.floor(minutes / 60);
+    //console.log("hou: "+hours)
     let days = Math.floor(hours / 24);
+    //console.log("day: "+days)
     
     hours = hours - days * 24;
     minutes = minutes - days * 24 * 60 - hours * 60;
@@ -77,7 +84,7 @@ function updateTime() {
     // Get the time left
     let t = getTime(17, 50);
 
-    //console.log("test1 d:"+t.days+" h:"+t.hours+" m:"+t.minutes+" s"+t.seconds);
+    console.log("test1 d:"+t.days+" h:"+t.hours+" m:"+t.minutes+" s"+t.seconds);
     let finalMessage = "";
     let shouldAddComma = false;
     
@@ -89,7 +96,7 @@ function updateTime() {
     {
         clockText.innerHTML = breakMessage;
     }
-    else if (t.days == 6 && (t.hours >= 22 && t.hours == 22 ? t.minutes >= 50 : t.minutes < 50)
+    else if (t.days == 6 && (t.hours >= 22 && (t.hours == 22 ? t.minutes >= 50 : t.minutes < 50))
         && !forceShowTimeTilNext && !forceShowInboundTime || forceBreakNow) //check debug variables
     {
         clockText.innerHTML = breakIsOverMessage;
@@ -97,17 +104,22 @@ function updateTime() {
     else if((t.days > 0 || t.hours >= 1 || t.minutes >= 50)
         && !forceShowInboundTime && !forceBreakNow || forceShowTimeTilNext) //check debug variables
     {
-        clockText.innerHTML = breakIsLongInboundMessage;
         t = getTime(17, 0);
+        let milisecondsAreReal = t.miliseconds != 0;
+        let secondsAreReal = t.seconds != 0;
+        let minutesAreReal = t.minutes != 0;
+        let hoursAreReal = t.hours != 0;
+        let daysAreReal = t.days != 0;
+        if(milisecondsAreReal || secondsAreReal || minutesAreReal || hoursAreReal || daysAreReal) clockText.innerHTML = breakIsLongInboundMessage;
 
-        if(forceMiliseconds)
+        if((milisecondsAreReal && (!daysAreReal && !hoursAreReal && !minutesAreReal && t.seconds < 10)) || forceMiliseconds)
         {
-            finalMessage = finalMessage + numberContainerText + t.miliseconds + numberContainerTextEnd+ " " + millisecondsMessage
+            finalMessage = finalMessage + numberContainerText + t.seconds + "." + t.miliseconds + " " + secondsMessage + numberContainerTextEnd
             shouldAddComma = true;
             updateInterval = 0;
         }
     
-        if(t.seconds != 0)
+        if((minutesAreReal || hoursAreReal || daysAreReal) ? secondsAreReal : t.seconds >= 10)
         {
             let addComma = ""
             if (shouldAddComma) {addComma = ", <br>"}
@@ -115,7 +127,7 @@ function updateTime() {
             shouldAddComma = true;
         }
     
-        if(t.minutes != 0)
+        if(minutesAreReal)
         {
             let addComma = ""
             if (shouldAddComma) {addComma = ", <br>"}
@@ -123,7 +135,7 @@ function updateTime() {
             shouldAddComma = true;
         }
     
-        if(t.hours != 0)
+        if(hoursAreReal)
         {
             let addComma = ""
             if (shouldAddComma) {addComma = ", <br>"}
@@ -131,7 +143,7 @@ function updateTime() {
             shouldAddComma = true;
         }
     
-        if(t.days != 0)
+        if(daysAreReal)
         {
             let addComma = ""
             if (shouldAddComma) {addComma = ", <br>"}
