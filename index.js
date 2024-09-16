@@ -3,7 +3,7 @@ forceShowInboundTime = false;
 forceShowTimeTilNext = false;
 forceMiliseconds = false;
 
-datePhusher = 1000*60*60*-13.7
+datePhusher = 0
 
 //the time between each textupdate in millisecunds
 defaultUpdateInterval = 100;
