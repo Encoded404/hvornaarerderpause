@@ -171,7 +171,7 @@ function updateTime() {
         finalMessage = numberContainerText + t.seconds + numberContainerTextEnd + addComma + finalMessage;
         shouldAddComma = true;
 
-        let showBlink = isEven(t.seconds)
+        let showBlink = t.miliseconds > 500;
         let blinkMessage = ":"
         if(!showBlink) {blinkMessage = " "}
         
