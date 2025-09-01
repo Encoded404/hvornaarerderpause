@@ -18,20 +18,20 @@ body {
   display: flex;
   align-items: center;
   gap: 2vw;
-  padding: 2vh 3vw;
+  padding: 1.2vh 3vw;
   border-bottom: 1px solid var(--panel-border);
   background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(0,0,0,0));
 }
 
 .brand .logo {
-  height: clamp(48px, 10vh, 120px);
+  height: clamp(44px, 9vh, 96px);
   width: auto;
   margin-right: 32px;
 }
 
 .brand .titles h1 {
   margin: 0 0 0.4vh 0;
-  font-size: clamp(24px, 4.5vw, 64px);
+  font-size: clamp(24px, 4.5vw, 56px);
   letter-spacing: 0.02em;
 }
 
@@ -39,14 +39,14 @@ body {
   margin: 0;
   font-weight: 600;
   color: #cfcfcf;
-  font-size: clamp(14px, 2vw, 24px);
+  font-size: clamp(14px, 1.8vw, 22px);
 }
 
 .grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 2.5vw;
-  padding: 3vh 3vw 6vh 3vw;
+  gap: 2vw;
+  padding: 2.4vh 3vw 3vh 3vw;
 }
 
 @media (max-width: 900px) {
@@ -59,7 +59,7 @@ body {
   background: var(--panel-bg);
   border: 1px solid var(--panel-border);
   border-radius: 16px;
-  padding: 3vh 3vw;
+  padding: 2vh 3vw;
   box-shadow: 0 0 0 2px rgba(0, 255, 208, 0.05) inset,
     0 20px 40px rgba(0, 0, 0, 0.6);
 }
@@ -73,7 +73,7 @@ body {
   font-weight: 700;
   color: var(--accent);
   text-transform: none;
-  margin-bottom: 1vh;
+  margin-bottom: 0.5vh;
 }
 
 .countdown {
@@ -85,7 +85,7 @@ body {
 }
 
 .countdown.big {
-  font-size: clamp(36px, 11vw, 160px);
+  font-size: clamp(36px, 10.5vw, 150px);
 }
 
 .countdown.small {

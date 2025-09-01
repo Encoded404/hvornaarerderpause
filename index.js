@@ -113,6 +113,7 @@ function update() {
   const breakBadge = document.getElementById("breakBadge");
   const classEndTitleEl = document.querySelector("#endPanel .panel-title");
   const classEndCountdownEl = document.getElementById("classEndCountdown");
+  const endPanel = document.getElementById("endPanel");
 
   // Big next-event area
   nextTitle.textContent = titleFor(state.key);
@@ -133,8 +134,15 @@ function update() {
     state.key === "preClass" || state.key === "preBreak" || state.key === "break" || state.key === "postBreak"
       ? "Coding Pirates slutter om:"
       : "Næste gang slutter om:";
-  classEndTitleEl.textContent = endLabel;
-  classEndCountdownEl.textContent = formatHMS(diffHMS(state.endAt));
+
+  // Hide the small end panel after the break (to avoid duplicate timers)
+  if (state.key === "postBreak") {
+    endPanel.style.display = "none";
+  } else {
+    endPanel.style.display = "";
+    classEndTitleEl.textContent = endLabel;
+    classEndCountdownEl.textContent = formatHMS(diffHMS(state.endAt));
+  }
 
   setTimeout(update, 200);
 }
