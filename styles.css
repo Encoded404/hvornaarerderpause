@@ -26,6 +26,7 @@ body {
 .brand .logo {
   height: clamp(48px, 10vh, 120px);
   width: auto;
+  margin-right: 32px;
 }
 
 .brand .titles h1 {
@@ -97,6 +98,7 @@ body {
 .tinkercad .tinker-url {
   font-size: clamp(18px, 3.2vw, 36px);
   color: #e6e6e6;
+  margin-right: 32px;
 }
 
 .tinkercad .tinker-code {
