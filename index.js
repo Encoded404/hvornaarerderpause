@@ -2,7 +2,6 @@
 // Class: Monday 17:00–19:00
 // Break: Monday 17:50–18:00
 
-const MS = 1000;
 const MONDAY = 1;
 
 function now() {
@@ -19,11 +18,14 @@ function nextMondayAt(h, m) {
   const t = now();
   const day = t.getDay();
   const daysUntilMonday = (MONDAY - day + 7) % 7;
-  const candidate = withTime(new Date(t.getFullYear(), t.getMonth(), t.getDate() + daysUntilMonday), h, m, 0, 0);
-  if (candidate <= t) {
-    // already passed today -> add 7 days
-    candidate.setDate(candidate.getDate() + 7);
-  }
+  const candidate = withTime(
+    new Date(t.getFullYear(), t.getMonth(), t.getDate() + daysUntilMonday),
+    h,
+    m,
+    0,
+    0
+  );
+  if (candidate <= t) candidate.setDate(candidate.getDate() + 7);
   return candidate;
 }
 
@@ -36,12 +38,13 @@ function between(d, start, end) {
 }
 
 function diffHMS(target) {
-  const delta = Math.max(0, target - now());
+  const nowTs = now().getTime();
+  const delta = Math.max(0, target.getTime() - nowTs);
   const totalSeconds = Math.floor(delta / 1000);
   const h = Math.floor(totalSeconds / 3600);
   const m = Math.floor((totalSeconds % 3600) / 60);
   const s = totalSeconds % 60;
-  return { h, m, s, ms: delta % 1000, totalMs: delta };
+  return { h, m, s, totalMs: delta };
 }
 
 function pad(n) {
@@ -52,50 +55,88 @@ function formatHMS(d) {
   return `${pad(d.h)}:${pad(d.m)}:${pad(d.s)}`;
 }
 
+function computeState(nowDate) {
+  // Today's windows
+  const start = withTime(nowDate, 17, 0);
+  const breakStart = withTime(nowDate, 17, 50);
+  const breakEnd = withTime(nowDate, 18, 0);
+  const end = withTime(nowDate, 19, 0);
+
+  if (isMonday(nowDate)) {
+    if (nowDate < start) {
+      return { key: "preClass", nextAt: start, endAt: end };
+    }
+    if (between(nowDate, start, breakStart)) {
+      return { key: "preBreak", nextAt: breakStart, endAt: end };
+    }
+    if (between(nowDate, breakStart, breakEnd)) {
+      return { key: "break", nextAt: breakEnd, endAt: end };
+    }
+    if (between(nowDate, breakEnd, end)) {
+      return { key: "postBreak", nextAt: end, endAt: end };
+    }
+    // After class on Monday -> next Monday start/end
+    return {
+      key: "afterClass",
+      nextAt: nextMondayAt(17, 0),
+      endAt: nextMondayAt(19, 0),
+    };
+  }
+  // Not Monday -> next Monday windows
+  return { key: "away", nextAt: nextMondayAt(17, 0), endAt: nextMondayAt(19, 0) };
+}
+
+function titleFor(stateKey) {
+  switch (stateKey) {
+    case "preClass":
+      return "Coding Pirates starter om:";
+    case "preBreak":
+      return "Der er pause om:";
+    case "break":
+      return "Pausen slutter om:";
+    case "postBreak":
+      return "Coding Pirates slutter om:";
+    case "afterClass":
+    case "away":
+    default:
+      return "Der er først Coding Pirates igen om:";
+  }
+}
+
 function update() {
   const nowDate = now();
+  const state = computeState(nowDate);
 
-  // Class windows today
-  const todayStart = withTime(nowDate, 17, 0);
-  const todayBreakStart = withTime(nowDate, 17, 50);
-  const todayBreakEnd = withTime(nowDate, 18, 0);
-  const todayEnd = withTime(nowDate, 19, 0);
-
-  const breakStatusEl = document.getElementById("breakStatusText");
-  const breakCountdownEl = document.getElementById("breakCountdown");
+  const nextPanel = document.getElementById("nextPanel");
+  const nextTitle = document.getElementById("nextTitle");
+  const nextCountdown = document.getElementById("nextCountdown");
+  const breakBadge = document.getElementById("breakBadge");
   const classEndTitleEl = document.querySelector("#endPanel .panel-title");
   const classEndCountdownEl = document.getElementById("classEndCountdown");
 
-  // Break section logic
-  if (isMonday(nowDate) && between(nowDate, todayStart, todayBreakStart)) {
-    // Before break today
-    breakStatusEl.textContent = "Der er pause om:";
-    breakCountdownEl.textContent = formatHMS(diffHMS(todayBreakStart));
-  } else if (isMonday(nowDate) && between(nowDate, todayBreakStart, todayBreakEnd)) {
-    // Break is active (assume 10 min)
-    breakStatusEl.textContent = "Nu er der pause!";
-    breakCountdownEl.classList.add("small");
-    breakCountdownEl.textContent = formatHMS(diffHMS(todayBreakEnd));
+  // Big next-event area
+  nextTitle.textContent = titleFor(state.key);
+  nextCountdown.textContent = formatHMS(diffHMS(state.nextAt));
+
+  // Break emphasis visuals
+  const body = document.body;
+  if (state.key === "break") {
+    body.classList.add("break-active");
+    breakBadge.style.display = "inline-block";
   } else {
-    // Outside the pre-break window -> show next class start
-    breakStatusEl.textContent = "Der er først Coding Pirates igen om:";
-    breakCountdownEl.classList.remove("small");
-    const nextStart = nextMondayAt(17, 0);
-    breakCountdownEl.textContent = formatHMS(diffHMS(nextStart));
+    body.classList.remove("break-active");
+    breakBadge.style.display = "none";
   }
 
-  // Class end section logic
-  if (isMonday(nowDate) && between(nowDate, todayStart, todayEnd)) {
-    classEndTitleEl.textContent = "Coding Pirates slutter om:";
-    classEndCountdownEl.textContent = formatHMS(diffHMS(todayEnd));
-  } else {
-    classEndTitleEl.textContent = "Næste gang slutter om:";
-    const nextEnd = nextMondayAt(19, 0);
-    classEndCountdownEl.textContent = formatHMS(diffHMS(nextEnd));
-  }
+  // Small "ends" timer (always points to end of current/next class)
+  const endLabel =
+    state.key === "preClass" || state.key === "preBreak" || state.key === "break" || state.key === "postBreak"
+      ? "Coding Pirates slutter om:"
+      : "Næste gang slutter om:";
+  classEndTitleEl.textContent = endLabel;
+  classEndCountdownEl.textContent = formatHMS(diffHMS(state.endAt));
 
-  const refresh = 200; // ms
-  setTimeout(update, refresh);
+  setTimeout(update, 200);
 }
 
 update();
