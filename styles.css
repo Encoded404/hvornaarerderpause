@@ -1,27 +1,121 @@
 body {
-    background-color: black;
-    font-size: 4vw;
-    font-weight: 800;
-    color: #FFFFFF;
-    margin: 0 auto;
-    margin-top: 0%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-family: "Montserrat", sans-serif;
+  background-color: #000;
+  color: #fff;
+  margin: 0;
+  font-family: "Montserrat", system-ui, -apple-system, Segoe UI, Roboto,
+    Ubuntu, Cantarell, Noto Sans, Arial, "Apple Color Emoji",
+    "Segoe UI Emoji";
+}
+
+:root {
+  --accent: #00ffd0;
+  --accent-2: #ffb703;
+  --panel-bg: rgba(255, 255, 255, 0.05);
+  --panel-border: rgba(255, 255, 255, 0.2);
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 2vw;
+  padding: 2vh 3vw;
+  border-bottom: 1px solid var(--panel-border);
+  background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(0,0,0,0));
+}
+
+.brand .logo {
+  height: clamp(48px, 10vh, 120px);
+  width: auto;
+}
+
+.brand .titles h1 {
+  margin: 0 0 0.4vh 0;
+  font-size: clamp(24px, 4.5vw, 64px);
+  letter-spacing: 0.02em;
+}
+
+.brand .titles .subtitle {
+  margin: 0;
+  font-weight: 600;
+  color: #cfcfcf;
+  font-size: clamp(14px, 2vw, 24px);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 2.5vw;
+  padding: 3vh 3vw 6vh 3vw;
+}
+
+@media (max-width: 900px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.panel {
+  background: var(--panel-bg);
+  border: 1px solid var(--panel-border);
+  border-radius: 16px;
+  padding: 3vh 3vw;
+  box-shadow: 0 0 0 2px rgba(0, 255, 208, 0.05) inset,
+    0 20px 40px rgba(0, 0, 0, 0.6);
+}
+
+.panel-wide {
+  grid-column: 1 / -1;
+}
+
+.panel-title {
+  font-size: clamp(18px, 2.2vw, 28px);
+  font-weight: 700;
+  color: var(--accent);
+  text-transform: none;
+  margin-bottom: 1vh;
+}
+
+.countdown {
+  font-weight: 800;
+  letter-spacing: 0.03em;
+  text-shadow: 0 0 12px rgba(0, 255, 208, 0.25);
+  font-size: clamp(28px, 8vw, 120px);
+  line-height: 1;
+}
+
+.countdown.small {
+  font-size: clamp(20px, 4vw, 72px);
+}
+
+.tinkercad .tinker-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 2vw;
+  flex-wrap: wrap;
+}
+
+.tinkercad .tinker-url {
+  font-size: clamp(18px, 3.2vw, 36px);
+  color: #e6e6e6;
+}
+
+.tinkercad .tinker-code {
+  background: linear-gradient(180deg, rgba(255,183,3,0.18), rgba(0,0,0,0));
+  border: 2px solid var(--accent-2);
+  color: var(--accent-2);
+  padding: 1vh 1.6vw;
+  border-radius: 12px;
+  font-weight: 900;
+  letter-spacing: 0.06em;
+  font-size: clamp(22px, 4.5vw, 56px);
 }
 
 
 
-time {
-    margin-top: 5vh;
-    padding: 3vh 2vw;
-    background: rgba(0, 0, 0, 0.1);
-    text-shadow: 0.4vw 0.2vh 0.1vw rgb(55, 55, 55);
-}
-
+/* Legacy classes kept for compatibility with JS transitions */
 .clockNumber {
-  text-shadow: 0.1ch 0.07ch 0px rgb(85, 85, 85), 0.2ch 0.15ch 0.03ch rgb(55, 55, 55), 0.32ch 0.22ch 0.1ch rgb(35, 35, 35);
+  text-shadow: 0.1ch 0.07ch 0px rgb(85, 85, 85),
+    0.2ch 0.15ch 0.03ch rgb(55, 55, 55), 0.32ch 0.22ch 0.1ch rgb(35, 35, 35);
 }
 
 .wobble {
@@ -110,32 +204,4 @@ time {
   animation: hidden 0.2s both;
 }
 
-.topbar
-{
-  position: fixed;
-  top: 0%;
-  width: 100%;
-  height: 8%;
-  background-color: #5c5c5c;
-  /*padding-left: 1vw; padding-right: 1vw;*/
-}
-
-.topbar button
-{
-  position: absolute;
-  background-color: #442929;
-  height: 100%;
-  width: 15%;
-  top: 0px;
-}
-
-.topbar button.settings
-{
-  left: 85vw;
-  text-align: center;
-  background-color: rgb(94, 52, 192);
-}
-
-#timeTilNextList {
-  list-style: none;
-}
+/* Removed unused topbar styles */

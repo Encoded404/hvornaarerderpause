@@ -1,20 +1,41 @@
 <!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="styles.css">
-        <title>Hvornår er der pause?</title>
-    </head>
-    <body>
-        <div class="topbar">
-            <button type="button" class="settings">settings icon</button>
-        </div>   
-        <time class="border" id="clockHeader">
-            <div class="clockText">Der er først coding pirates igen om:</div>
-            <div class="clock" id="nextTimeClock"></div>
-        </time>
-    </body>
+<html lang="da">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="styles.css" />
+    <title>Hvornår er der pause?</title>
+  </head>
+  <body>
+    <header class="brand">
+      <img src="logo.png" alt="Coding Pirates logo" class="logo" />
+      <div class="titles">
+        <h1>Hvornår er der pause?</h1>
+        <p class="subtitle">Mandage kl. 17:00–19:00 • Pause: 17:50</p>
+      </div>
+    </header>
+
+    <main class="grid">
+      <section class="panel" id="breakPanel">
+        <div class="panel-title" id="breakStatusText">Der er pause om:</div>
+        <div class="countdown" id="breakCountdown">--:--:--</div>
+      </section>
+
+      <section class="panel" id="endPanel">
+        <div class="panel-title">Coding Pirates slutter om:</div>
+        <div class="countdown" id="classEndCountdown">--:--:--</div>
+      </section>
+
+      <section class="panel panel-wide tinkercad">
+        <div class="panel-title">Tinkercad</div>
+        <div class="tinker-wrapper">
+          <div class="tinker-url">www.tinkercad.com</div>
+          <div class="tinker-code" aria-label="Tinkercad klasselærer kode">YTM-TWZ-CT4</div>
+        </div>
+      </section>
+    </main>
+
     <script src="index.js"></script>
+  </body>
 </html>
